@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shoppingcar/payment_module/pages/controller/payment_controller.dart';
 import 'package:shoppingcar/payment_module/pages/widget/box_container_payment.dart';
-
 import 'widget/payment_card.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -20,7 +18,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        centerTitle: true,
         title: const Text(
           'MEUS PEDIDOS',
           style: TextStyle(
@@ -30,16 +28,17 @@ class _PaymentPageState extends State<PaymentPage> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
-      body: Observer(
-        builder: (_) {
-          return ListView.builder(
-            itemCount: controller.listProductSelected.length,
-            itemBuilder: (context, index) {
-              return BoxContainerPayment(
-                color: Theme.of(context).secondaryHeaderColor,
-                boxSize: 10,
-                child: Observer(builder: (_) {
-                  return PaymentCard(
+      body: Column(
+        children: [
+          SizedBox(
+            height: 500,
+            child: ListView.builder(
+              itemCount: controller.listProductSelected.length,
+              itemBuilder: (context, index) {
+                return BoxContainerPayment(
+                  color: Theme.of(context).secondaryHeaderColor,
+                  boxSize: 10,
+                  child: PaymentCard(
                     name: controller.listProductSelected[index].name,
                     priceItem: (controller.listProductSelected[index].price *
                             controller.listProductSelected[index].quantity)
@@ -48,37 +47,38 @@ class _PaymentPageState extends State<PaymentPage> {
                         .toString(),
                     price: controller.listProductSelected[index].price
                         .toStringAsFixed(2),
-                  );
-                }),
-              );
-            },
-          );
-        },
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
+                  child: Text(
+                    'Total:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+                SizedBox(
+                  child: Text(
+                    'R\$ ${controller.total}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
       persistentFooterButtons: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                  child: FloatingActionButton(
-                    elevation: 10,
-                    heroTag: 'meus dados',
-                    child: const Icon(
-                      Icons.person,
-                      size: 30,
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
-                const SizedBox(height: 5),
-                const SizedBox(
-                  child: Text('Meus dados'),
-                ),
-              ],
-            ),
             Column(
               children: [
                 SizedBox(
@@ -137,16 +137,12 @@ class _PaymentPageState extends State<PaymentPage> {
                             constraints: const BoxConstraints(
                               minWidth: 20,
                             ),
-                            child: Observer(
-                              builder: (_) {
-                                return Text(
-                                  '${controller.listProductSelected.length}',
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                );
-                              },
+                            child: Text(
+                              '${controller.listProductSelected.length}',
+                              style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
                             ),
                           ),
                         ),

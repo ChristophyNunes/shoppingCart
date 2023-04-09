@@ -1,5 +1,4 @@
 // ignore_for_file: unused_element
-
 import 'package:mobx/mobx.dart';
 part 'product_store.g.dart';
 

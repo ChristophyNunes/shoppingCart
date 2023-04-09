@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shoppingcar/product_module/controller/cart_controller.dart';
 import 'package:shoppingcar/product_module/store/product_store.dart';
-import 'package:shoppingcar/product_module/widget/box_container_cart.dart';
 
 // ignore: must_be_immutable
 class ProductCart extends StatelessWidget {
@@ -37,7 +36,7 @@ class ProductCart extends StatelessWidget {
               ),
             ),
             child: Image.asset(
-              product.image ?? '',
+              product.image as String,
               fit: BoxFit.fill,
               height: 80,
               width: 80,

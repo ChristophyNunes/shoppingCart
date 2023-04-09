@@ -8,10 +8,21 @@ part 'cart_controller.g.dart';
 class CartController = _CartControllerBase with _$CartController;
 
 abstract class _CartControllerBase with Store {
-  final ProductController _productController = Modular.get<ProductController>();
   final ProductStore _productStore = Modular.get<ProductStore>();
+  final ProductController _productController = Modular.get<ProductController>();
 
   ObservableList<ProductStore> productSelected = ObservableList<ProductStore>();
+
+  @computed
+  ObservableList<ProductStore> get listProductSelected =>
+      _productStore.productSelected;
+
+  @computed
+  ObservableList<ProductStore> get listProduct =>
+      _productController.listProduct;
+
+  @computed
+  String get total => _productStore.total.toStringAsFixed(2);
 
   @action
   incrementQuantity(int index) {
@@ -58,15 +69,4 @@ abstract class _CartControllerBase with Store {
     listProductSelected.clear();
     _productStore.calculatePriceTotal();
   }
-
-  @computed
-  ObservableList<ProductStore> get listProductSelected =>
-      _productStore.productSelected;
-
-  @computed
-  ObservableList<ProductStore> get listProduct =>
-      _productController.listProduct;
-
-  @computed
-  String get total => _productStore.total.toStringAsFixed(2);
 }

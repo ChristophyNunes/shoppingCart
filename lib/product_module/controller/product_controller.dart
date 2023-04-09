@@ -7,7 +7,7 @@ part 'product_controller.g.dart';
 class ProductController = _ProductControllerBase with _$ProductController;
 
 abstract class _ProductControllerBase with Store {
-  ProductStore _productStore = Modular.get<ProductStore>();
+  final ProductStore _productStore = Modular.get<ProductStore>();
 
   @action
   incrementQuantity(int index) {

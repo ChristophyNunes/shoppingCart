@@ -19,97 +19,16 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: GridView.count(
-          childAspectRatio: 0.7,
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          children: List.generate(
-              controller.listProduct.length, (index) => cardProduct(index)),
-        ),
-      ),
-      persistentFooterButtons: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Stack(
-              children: [
-                FloatingActionButton(
-                  elevation: 10,
-                  heroTag: 'shopping cart',
-                  child: const Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 40,
-                  ),
-                  onPressed: () {
-                    controller.listProductSelected.isEmpty
-                        ? showAlertDialog(
-                            'Selecione ao menos um produto para acessar o carrinho!!!')
-                        : Modular.to.pushNamed('/home/cartPage');
-                  },
-                ),
-                Positioned(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 40, bottom: 35),
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 20,
-                      ),
-                      child: Observer(
-                        builder: (_) {
-                          return Text(
-                            '${controller.listProductSelected.length}',
-                            style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 55,
-              child: FloatingActionButton.extended(
-                elevation: 10,
-                icon: const Text(
-                  'Pagar',
-                  style: TextStyle(fontSize: 18),
-                ),
-                label: Observer(builder: (_) {
-                  return Text(
-                    'R\$ ${controller.total}',
-                    style: const TextStyle(fontSize: 18),
-                  );
-                }),
-                onPressed: () {
-                  controller.listProductSelected.isEmpty
-                      ? showAlertDialog(
-                          'Selecione ao menos um produto para acessar a tela de pagamentos!!!')
-                      : Modular.to.pushNamed(PaymentModule.route);
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'PRODUTOS',
           style: TextStyle(
             color: Colors.black,
           ),
         ),
+        iconTheme: const IconThemeData(color: Colors.blue),
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
@@ -122,9 +41,22 @@ class _ProductPageState extends State<ProductPage> {
                 color: Colors.red,
               ),
             ),
-          )
+          ),
         ],
       ),
+      drawer: Drawer(
+        child: navDrawer(),
+      ),
+      body: Center(
+        child: GridView.count(
+          childAspectRatio: 0.7,
+          shrinkWrap: true,
+          crossAxisCount: 3,
+          children: List.generate(
+              controller.listProduct.length, (index) => cardProduct(index)),
+        ),
+      ),
+      persistentFooterButtons: footerButtons(),
     );
   }
 
@@ -168,9 +100,10 @@ class _ProductPageState extends State<ProductPage> {
                   BoxContainerProduct(
                     boxSize: 10,
                     color: Theme.of(context).secondaryHeaderColor,
-                    child: Product(
-                      product: controller.listProduct[index],
-                      index: index,
+                    child: ProductCard(
+                      image: controller.listProduct[index].image,
+                      nameProduct: controller.listProduct[index].name,
+                      priceProduct: controller.listProduct[index].price,
                     ),
                   ),
                   Visibility(
@@ -221,5 +154,110 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ],
     );
+  }
+
+  navDrawer() {
+    return ListView(
+      children: [
+        const SizedBox(height: 1),
+        ListTile(
+          leading: const Icon(
+            Icons.person_outline,
+            size: 40,
+          ),
+          title: const Text('Meus dados'),
+          tileColor: Theme.of(context).secondaryHeaderColor,
+          onTap: () {},
+        ),
+        const SizedBox(height: 2),
+        ListTile(
+          leading: const Icon(
+            Icons.post_add_sharp,
+            size: 40,
+          ),
+          title: const Text('Cadastro de produtos'),
+          tileColor: Theme.of(context).secondaryHeaderColor,
+          onTap: () {
+            Modular.to.pushNamed('/home/registerProductPage');
+          },
+        ),
+      ],
+    );
+  }
+
+  footerButtons() {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Stack(
+            children: [
+              FloatingActionButton(
+                elevation: 10,
+                heroTag: 'shopping cart',
+                child: const Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 40,
+                ),
+                onPressed: () {
+                  controller.listProductSelected.isEmpty
+                      ? showAlertDialog(
+                          'Selecione ao menos um produto para acessar o carrinho!!!')
+                      : Modular.to.pushNamed('/home/cartPage');
+                },
+              ),
+              Positioned(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40, bottom: 35),
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 20,
+                    ),
+                    child: Observer(
+                      builder: (_) {
+                        return Text(
+                          '${controller.listProductSelected.length}',
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 55,
+            child: FloatingActionButton.extended(
+              elevation: 10,
+              icon: const Text(
+                'Pagar',
+                style: TextStyle(fontSize: 18),
+              ),
+              label: Observer(builder: (_) {
+                return Text(
+                  'R\$ ${controller.total}',
+                  style: const TextStyle(fontSize: 18),
+                );
+              }),
+              onPressed: () {
+                controller.listProductSelected.isEmpty
+                    ? showAlertDialog(
+                        'Selecione ao menos um produto para acessar a tela de pagamentos!!!')
+                    : Modular.to.pushNamed(PaymentModule.route);
+              },
+            ),
+          ),
+        ],
+      ),
+    ];
   }
 }

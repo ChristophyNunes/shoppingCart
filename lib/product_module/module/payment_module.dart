@@ -1,7 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shoppingcar/payment_module/pages/controller/payment_controller.dart';
 import 'package:shoppingcar/payment_module/pages/payment_page.dart';
-import 'package:shoppingcar/product_module/store/product_store.dart';
 
 class PaymentModule extends Module {
   @override

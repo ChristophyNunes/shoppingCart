@@ -22,12 +22,14 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         automaticallyImplyLeading: false,
-        elevation: 0,
-        title: const Text('MEU CARRINHO',
-            style: TextStyle(
-              color: Colors.black,
-            )),
+        title: const Text(
+          'MEU CARRINHO',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         backgroundColor: Colors.white,
         actions: [
           Padding(

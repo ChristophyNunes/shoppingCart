@@ -12,4 +12,7 @@ abstract class _PaymentControllerBase with Store {
   @computed
   ObservableList<ProductStore> get listProductSelected =>
       _productStore.productSelected;
+
+  @computed
+  String get total => _productStore.total.toStringAsFixed(2);
 }

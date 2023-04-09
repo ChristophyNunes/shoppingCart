@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:shoppingcar/product_module/controller/cart_controller.dart';
-import 'package:shoppingcar/product_module/store/product_store.dart';
 
 // ignore: must_be_immutable
-class Product extends StatelessWidget {
-  final CartController controller = Modular.get<CartController>();
+class ProductCard extends StatelessWidget {
+  double priceProduct;
+  String nameProduct;
+  String? image;
 
-  final ProductStore product;
-  int index;
-
-  Product({
+  ProductCard({
     super.key,
-    required this.product,
-    required this.index,
+    required this.nameProduct,
+    required this.priceProduct,
+    this.image = '',
   });
 
   @override
@@ -22,18 +19,18 @@ class Product extends StatelessWidget {
       children: [
         SizedBox(
           child: Image.asset(
-            product.image ?? '',
-            fit: BoxFit.cover,
+            image ?? 'assets/imgs/error-image.jpg',
+            fit: BoxFit.fill,
             height: 120,
             width: 120,
           ),
         ),
         const SizedBox(height: 5),
         Text(
-          product.name,
+          nameProduct,
           style: const TextStyle(fontWeight: FontWeight.w700),
         ),
-        Text('R\$ ${product.price.toStringAsFixed(2)}'),
+        Text('R\$ ${priceProduct.toStringAsFixed(2)}'),
       ],
     );
   }

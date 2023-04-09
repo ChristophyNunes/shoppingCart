@@ -17,11 +17,18 @@ mixin _$PaymentController on _PaymentControllerBase, Store {
               () => super.listProductSelected,
               name: '_PaymentControllerBase.listProductSelected'))
           .value;
+  Computed<String>? _$totalComputed;
+
+  @override
+  String get total => (_$totalComputed ??= Computed<String>(() => super.total,
+          name: '_PaymentControllerBase.total'))
+      .value;
 
   @override
   String toString() {
     return '''
-listProductSelected: ${listProductSelected}
+listProductSelected: ${listProductSelected},
+total: ${total}
     ''';
   }
 }

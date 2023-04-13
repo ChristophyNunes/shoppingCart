@@ -49,7 +49,7 @@ class _ProductPageState extends State<ProductPage> {
       ),
       body: Center(
         child: GridView.count(
-          childAspectRatio: 0.7,
+          childAspectRatio: 0.65,
           shrinkWrap: true,
           crossAxisCount: 3,
           children: List.generate(
@@ -103,48 +103,51 @@ class _ProductPageState extends State<ProductPage> {
                     child: ProductCard(
                       image: controller.listProduct[index].image,
                       nameProduct: controller.listProduct[index].name,
+                      description: controller.listProduct[index].description!,
                       priceProduct: controller.listProduct[index].price,
                     ),
                   ),
                   Visibility(
                     visible: controller.listProduct[index].quantity > 0,
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 168,
-                          width: 122,
-                          decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.5),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                            top: 50,
-                          ),
-                          child: Container(
+                    child: IntrinsicWidth(
+                      stepHeight: 96.5,
+                      stepWidth: 30,
+                      child: Stack(
+                        children: [
+                          Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.9),
-                              shape: BoxShape.circle,
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 90,
-                            ),
-                            child: Text(
-                              '${controller.listProduct[index].quantity}',
-                              style: const TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white,
+                              color: Colors.blue.withOpacity(0.5),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                              top: 50,
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.9),
+                                shape: BoxShape.circle,
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 90,
+                              ),
+                              child: Text(
+                                '${controller.listProduct[index].quantity}',
+                                style: const TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],

@@ -5,19 +5,25 @@ class ProductCard extends StatelessWidget {
   double priceProduct;
   String nameProduct;
   String? image;
+  String description;
 
   ProductCard({
     super.key,
     required this.nameProduct,
     required this.priceProduct,
     this.image = '',
+    required this.description,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
           child: Image.asset(
             image ?? 'assets/imgs/error-image.jpg',
             fit: BoxFit.fill,
@@ -28,8 +34,14 @@ class ProductCard extends StatelessWidget {
         const SizedBox(height: 5),
         Text(
           nameProduct,
-          style: const TextStyle(fontWeight: FontWeight.w700),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
+        const SizedBox(height: 5),
+        Text(
+          description,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 5),
         Text('R\$ ${priceProduct.toStringAsFixed(2)}'),
       ],
     );

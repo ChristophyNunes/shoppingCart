@@ -68,7 +68,7 @@ class _CartPageState extends State<CartPage> {
                               controller.deleteAndSetQuantityZero(
                                   controller.listProductSelected[index], index);
                               if (controller.listProductSelected.isEmpty) {
-                                Modular.to.pop();
+                                Modular.to.pushNamed(HomeModule.route);
                               }
                             },
                           ),

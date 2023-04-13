@@ -41,6 +41,22 @@ mixin _$RegisterProductController on _RegisterProductControllerBase, Store {
     });
   }
 
+  late final _$descriptionAtom = Atom(
+      name: '_RegisterProductControllerBase.description', context: context);
+
+  @override
+  String get description {
+    _$descriptionAtom.reportRead();
+    return super.description;
+  }
+
+  @override
+  set description(String value) {
+    _$descriptionAtom.reportWrite(value, super.description, () {
+      super.description = value;
+    });
+  }
+
   late final _$_RegisterProductControllerBaseActionController =
       ActionController(
           name: '_RegisterProductControllerBase', context: context);
@@ -51,6 +67,17 @@ mixin _$RegisterProductController on _RegisterProductControllerBase, Store {
         .startAction(name: '_RegisterProductControllerBase.setName');
     try {
       return super.setName(value);
+    } finally {
+      _$_RegisterProductControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setDescription(String value) {
+    final _$actionInfo = _$_RegisterProductControllerBaseActionController
+        .startAction(name: '_RegisterProductControllerBase.setDescription');
+    try {
+      return super.setDescription(value);
     } finally {
       _$_RegisterProductControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -71,7 +98,8 @@ mixin _$RegisterProductController on _RegisterProductControllerBase, Store {
   String toString() {
     return '''
 name: ${name},
-price: ${price}
+price: ${price},
+description: ${description}
     ''';
   }
 }

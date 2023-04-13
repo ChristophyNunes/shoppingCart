@@ -62,9 +62,13 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
-                  controller.addProductStore();
-                  controller.disposeScreen();
-                  Modular.to.pushNamed(HomeModule.route);
+                  if (controller.isValidRegister()) {
+                    showAlertDialog(controller.errorString);
+                  } else {
+                    controller.addProductStore();
+                    controller.disposeScreen();
+                    Modular.to.pushNamed(HomeModule.route);
+                  }
                 },
               ),
             ),
@@ -90,6 +94,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                   return ProductCard(
                     image: 'assets/imgs/error-image.jpg',
                     nameProduct: controller.name,
+                    description: controller.description,
                     priceProduct: controller.price,
                   );
                 }),
@@ -121,6 +126,30 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
             ),
             const SizedBox(height: 5),
             TextFormField(
+              maxLength: 14,
+              decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  labelText: 'Descrição do produto',
+                  hintText: 'Ex: Eletrônico'),
+              onChanged: (value) {
+                controller.setDescription(value);
+              },
+            ),
+            const SizedBox(height: 5),
+            TextFormField(
               controller: controller.textPrice,
               onChanged: (value) {
                 controller.setPrice(value);
@@ -147,6 +176,28 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
           ],
         ),
       ),
+    );
+  }
+
+  showAlertDialog(String text) {
+    Widget okButton = FloatingActionButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      child: const Text('Ok'),
+    );
+    AlertDialog alerta = AlertDialog(
+      title: const Text('Ooooops!'),
+      content: Text(text),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
     );
   }
 }

@@ -26,9 +26,19 @@ abstract class _RegisterProductControllerBase with Store {
   @observable
   double price = 0;
 
+  @observable
+  String description = '';
+
+  String errorString = '';
+
   @action
   setName(String value) {
     name = value;
+  }
+
+  @action
+  setDescription(String value) {
+    description = value;
   }
 
   @action
@@ -36,16 +46,38 @@ abstract class _RegisterProductControllerBase with Store {
     price = textPrice.numberValue;
   }
 
+  setErrorString(String value) {
+    errorString = value;
+  }
+
   addProductStore() {
     ProductStore productStore = ProductStore(
       name: name,
+      description: description,
       price: price,
     );
     productController.listProduct.add(productStore);
   }
 
+  bool isValidRegister() {
+    if (name == '') {
+      setErrorString('Nome não pode ser vazio');
+      return true;
+    }
+    if (description == '') {
+      setErrorString('Descrição não pode ser vazio');
+      return true;
+    }
+    if (price == 0) {
+      setErrorString('Preço não pode ser zero');
+      return true;
+    }
+    return false;
+  }
+
   disposeScreen() {
     setName('');
+    setDescription('');
     textPrice.clear();
     price = 0;
   }
